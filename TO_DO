@@ -1,3 +1,4 @@
+Modifier le vecteur retourné par l'histogramme de couleur pour qu'il continne des pourcentages et non pas le nombre de pixels (sinon prb avec les différentes résolutions)
 Histogramme de gradient, texture des images -----> a regarder pour utiliser à la place des histogrammes de couleur
 NB : Ne pas faire de rotation de 360°
 regrouper les nuances de couleur dans le vecteur histogramme de couleur (ex regrouper par 20 nuances)
