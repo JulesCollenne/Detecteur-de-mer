@@ -29,7 +29,7 @@ print(dataImage)
 # @return un vecteur de taille 768 (256*3)
 # representant l'histogramme de couleur RGB succesivement
 def VectorHistogrammeC(image):
-    chans = cv2.split(image)
+    chans = cv2.split(cv2.imread(image))
     colors = ('b','g','r')
     features = []
 
