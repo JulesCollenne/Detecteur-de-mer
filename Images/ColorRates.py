@@ -1,7 +1,9 @@
 import sys
 from PIL import Image
 
-#Retourne un vecteur contenant les pourcentage RGB de l'image passé en argument
+# @param objet Image
+# @return vecteur
+# Retourne un vecteur contenant les pourcentage RGB de l'image 
 def getColorRates(img):
     column, line = img.size
     p1 = 0

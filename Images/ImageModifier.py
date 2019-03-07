@@ -2,7 +2,9 @@ import sys
 import os
 from PIL import Image
 
-#prend en argument une image et retourne son negatif
+# @param objet Image
+# @return objet Image
+# Prend en argument une image et retourne la même image en negatif
 def negative(img):
     imgN = Image.new(img.mode, img.size)
     column, line = imgN.size
@@ -12,9 +14,10 @@ def negative(img):
             p = (255-pixel[0], 255-pixel[1], 255-pixel[2])
             imgN.putpixel((j,i),p)
     return imgN;
-    import os;
 
-#prend en argument une image et renvoi cette image dans sons sens inverse x->y => y->x
+# @param objet Image
+# @return objet Image
+# Prend en argument une image et renvoi cette image dans sons sens inverse x->y => y->x
 def mirror(img):
     imgM = Image.new(img.mode, img.size)
     column, line = imgM.size
@@ -24,7 +27,9 @@ def mirror(img):
             imgM.putpixel((column-j-1,i),pixel)
     return imgM;
 
-#create nb rotated samples of the image img
+# @param objet Image, nombre de nouvelles images, nom de dossier
+# Prend l'image passé en argument, en créer nb copies ayant subit une rotation (écart de rotation proportionelle au nombre)
+# et stock ces images dans le dossier voulu
 def createRotatedSamples(img, nb, folder):
     os.makedirs(folder, exist_ok=True)
     nbrotates=360/nb
