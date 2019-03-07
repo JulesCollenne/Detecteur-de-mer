@@ -60,7 +60,7 @@ def getColorRates(img):
 #************************************************************************#
 
 # ouverture du fichier image
-ImageFile = 'hawkeye.jpg'
+ImageFile = './Data/Mer/aaaaa.jpeg'
 try:
   img = Image.open(ImageFile)
 except IOError:
