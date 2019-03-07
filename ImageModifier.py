@@ -38,7 +38,7 @@ def createRotatedSamples(img, nb, folder):
         k=k+1
 
 ######################To_Execute######################
-
+'''
 #Ouverture du fichier image
 ImageFile = './Data/Mer/aaaaa.jpeg'
 try:
@@ -58,9 +58,9 @@ imgN.show()
 imgM = mirror(img)
 imgM.show()
 
-createRotatedSamples(imgN,20, "generate")
+createRotatedSamples(imgN,360, "generate")
 
 #Fermeture du fichier image
 img.close()
-
+'''
 ######################To_Execute######################
