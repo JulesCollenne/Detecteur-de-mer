@@ -47,10 +47,7 @@ except IOError:
   print('Erreur sur ouverture du fichier ' + ImageFile)
   sys.exit(1)
 
-#Affichage des caractéristiques de l'image
-print(img.format,img.size, img.mode)
-
-#Affichage de l'image
+#Affichage l'image de base
 img.show()
 
 #Negatif de l'Image
