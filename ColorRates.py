@@ -22,7 +22,7 @@ def getColorRates(img):
     return [per1, per2, per3]
 
 ######################To_Execute######################
-
+'''
 #Ouverture du fichier image
 ImageFile = './Data/Mer/aaaaa.jpeg'
 try:
@@ -39,5 +39,5 @@ print("R: "+str(vec[0])+" G: "+str(vec[1])+" B: "+str(vec[2]))
 
 # fermeture du fichier image
 img.close()
-
+'''
 ######################To_Execute######################
