@@ -1,0 +1,7 @@
+Histogramme de gradient, texture des images -----> a regarder pour utiliser à la place des histogrammes de couleur
+NB : Ne pas faire de rotation de 360°
+regrouper les nuances de couleur dans le vecteur histogramme de couleur (ex regrouper par 20 nuances)
+Adaboost
+Regression logistique
+support vector machines
+Regarder quelles images ne sont pas reconnues correctement par l'algo -----> améliorer la vectorisation ou changer d'algo 
