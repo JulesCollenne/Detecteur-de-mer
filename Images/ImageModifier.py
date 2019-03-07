@@ -33,14 +33,14 @@ def createRotatedSamples(img, nb, folder):
     while(k<nb-1):
         r = r+nbrotates
         imgF = img.rotate(r, Image.BICUBIC, True)
-        name = "reroll"+str(r)+".jpg"
+        name = "generated"+str(r)+".jpg"
         imgF.save(folder+'/'+name)
         k=k+1
 
 ######################To_Execute######################
 '''
 #Ouverture du fichier image
-ImageFile = './Data/Mer/aaaaa.jpeg'
+ImageFile = '../Data/Mer/aaaaa.jpeg'
 try:
   img = Image.open(ImageFile)
 except IOError:
@@ -58,7 +58,7 @@ imgN.show()
 imgM = mirror(img)
 imgM.show()
 
-createRotatedSamples(imgN,360, "generate")
+createRotatedSamples(imgN,10, "output")
 
 #Fermeture du fichier image
 img.close()
