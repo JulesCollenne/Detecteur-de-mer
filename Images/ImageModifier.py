@@ -1,6 +1,7 @@
 import sys
 import os
 from PIL import Image
+from math import sqrt
 
 # @param objet Image
 # @return objet Image
@@ -42,8 +43,38 @@ def createRotatedSamples(img, nb, folder):
         imgF.save(folder+'/'+name)
         k=k+1
 
+def blackAndWhite(img_path):
+    img = Image.open(img_path)
+    imgN = Image.new(img.mode, img.size)
+    column, line = imgN.size
+    for i in range(line):
+        for j in range(column):
+            pixel = img.getpixel((j,i))
+            pixelbw = int(pixel[0]/3+pixel[1]/3+pixel[2]/3)
+            p = (pixelbw, pixelbw, pixelbw)
+            imgN.putpixel((j,i),p)
+    return imgN;
+
+def shapeDetection(img, treshold):
+    imgS = Image.new(img.mode, img.size)
+    column, line = imgN.size
+    for i in range(1,line-1):
+        for j in range(1,column-1):
+            p1 = img.getpixel((j-1,i))
+            p2 = img.getpixel((j,i-1))
+            p3 = img.getpixel((j+1,i))
+            p4 = img.getpixel((j,i+1))
+            n = sqrt((p1[0]-p3[0])*(p1[0]-p3[0]) + (p2[0]-p4[0])*(p2[0]-p4[0]))
+            #print(n)
+            if n < treshold:
+                p = (255,255,255)
+            else:
+                p = (0,0,0)
+            imgS.putpixel((j-1,i-1),p)
+    return imgS;
+    
 ######################To_Execute######################
-'''
+
 #Ouverture du fichier image
 ImageFile = '../Data/Mer/aaaaa.jpeg'
 try:
@@ -53,19 +84,28 @@ except IOError:
   sys.exit(1)
 
 #Affichage l'image de base
-img.show()
+#img.show()
 
 #Negatif de l'Image
 imgN = negative(img)
-imgN.show()
+#imgN.show()
 
 #Miroir de l'Image
 imgM = mirror(img)
-imgM.show()
+#imgM.show()
 
-createRotatedSamples(imgN,10, "output")
+#Noir et blanc de l'image
+imgBW = blackAndWhite(ImageFile)
+#imgBW.show()
+
+#Detection de contours de l'image
+imgT = shapeDetection(imgBW, 30)
+imgT.show()
+
+
+#createRotatedSamples(imgN,10, "output")
 
 #Fermeture du fichier image
 img.close()
-'''
+
 ######################To_Execute######################
