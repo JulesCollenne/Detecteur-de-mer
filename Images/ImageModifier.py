@@ -2,6 +2,7 @@ import sys
 import os
 from PIL import Image
 from math import sqrt
+import time
 
 # @param objet Image
 # @return objet Image
@@ -31,18 +32,24 @@ def mirror(img):
 # @param objet Image, nombre de nouvelles images, nom de dossier
 # Prend l'image passé en argument, en créer nb copies ayant subit une rotation (écart de rotation proportionelle au nombre)
 # et stock ces images dans le dossier voulu
-def createRotatedSamples(img, nb, folder):
+def createRotatedSamples(img_path, nb, folder):
+    img = Image.open(img_path)
     os.makedirs(folder, exist_ok=True)
-    nbrotates=360/nb
+    rotateMargin = 60
+    nbrotates= rotateMargin/nb
     k=0
-    r=0
+    r=0-rotateMargin/2
     while(k<nb-1):
         r = r+nbrotates
         imgF = img.rotate(r, Image.BICUBIC, True)
         name = "generated"+str(r)+".jpg"
         imgF.save(folder+'/'+name)
         k=k+1
+        time.sleep(1)        
 
+# @param chemin d'une Image
+# @return objet Image
+# Prend en argument le chemin d'une image et créer l'équivalent de cette image en noir et blanc, puis la retourne.
 def blackAndWhite(img_path):
     img = Image.open(img_path)
     imgN = Image.new(img.mode, img.size)
@@ -55,6 +62,10 @@ def blackAndWhite(img_path):
             imgN.putpixel((j,i),p)
     return imgN;
 
+# @param objet Image, seuil
+# @return objet Image
+# Prend en argument une Image et un seuil, puis met en noir les pixels ayant des pixels voisin de couleur différentes
+# en fonction du seuil donné
 def shapeDetection(img, treshold):
     imgS = Image.new(img.mode, img.size)
     column, line = imgN.size
@@ -65,7 +76,6 @@ def shapeDetection(img, treshold):
             p3 = img.getpixel((j+1,i))
             p4 = img.getpixel((j,i+1))
             n = sqrt((p1[0]-p3[0])*(p1[0]-p3[0]) + (p2[0]-p4[0])*(p2[0]-p4[0]))
-            #print(n)
             if n < treshold:
                 p = (255,255,255)
             else:
@@ -100,10 +110,10 @@ imgBW = blackAndWhite(ImageFile)
 
 #Detection de contours de l'image
 imgT = shapeDetection(imgBW, 30)
-imgT.show()
+#imgT.show()
 
 
-#createRotatedSamples(imgN,10, "output")
+#createRotatedSamples(ImageFile,10, "output")
 
 #Fermeture du fichier image
 img.close()
