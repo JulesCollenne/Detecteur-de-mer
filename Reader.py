@@ -28,4 +28,3 @@ def dataHistogramme(dirPath):
     print(target.shape)
 
     return data,target
-

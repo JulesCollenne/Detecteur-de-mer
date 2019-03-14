@@ -13,7 +13,5 @@ def VectorHistogrammeC(image):
 
     for (chan, color) in zip(chans, colors):
         	hist = cv2.calcHist([chan], [0], None, [256], [0, 256])
-        	features.extend(hist) 
-       # 	plt.plot(hist, color = color)
-        #	plt.xlim([0, 256])
+        	features.extend(hist.flatten())
     return np.array(features).flatten()
