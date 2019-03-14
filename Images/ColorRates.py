@@ -4,7 +4,8 @@ from PIL import Image
 # @param objet Image
 # @return vecteur
 # Retourne un vecteur contenant les pourcentage RGB de l'image 
-def getColorRates(img):
+def getColorRates(img_path):
+    img = Image.open(img_path)
     column, line = img.size
     p1 = 0
     p2 = 0
@@ -36,7 +37,7 @@ except IOError:
 print(img.format,img.size, img.mode)
 
 #Recupère les % RGB d'une image dans un vecteur (R,G,B)
-vec = getColorRates(img)
+vec = getColorRates('../Data/Mer/aaaaa.jpeg')
 print("R: "+str(vec[0])+" G: "+str(vec[1])+" B: "+str(vec[2]))
 
 # fermeture du fichier image
