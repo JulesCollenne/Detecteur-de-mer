@@ -5,7 +5,7 @@ def Bayses(data, target):
 # split the data with 50% in each set
     data_test = train_test_split(data, target
                                  , random_state=0
-                                 , train_size=0.5)
+                                 , train_size=0.8)
     data_train, data_test, target_train, target_test = data_test
 
 #train

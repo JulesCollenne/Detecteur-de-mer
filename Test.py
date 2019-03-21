@@ -1,41 +1,67 @@
 # -*- coding: utf-8 -*-
 
 import matplotlib.pyplot as plt
-2
+
 import numpy as np
-3
+
 import cv2 as cv
-4
-5
-img = cv.imread('Data/Ailleurs/ach.jpeg',0)
-6
-img= cv.GaussianBlur(img, (3, 3), 0)
-7
-sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
-8
-sobely = cv.Sobel(img,cv.CV_64F,0,1,ksize=5)
-9
-10
-pas=3
-11
-X = np.arange(0, img.shape[1], pas)
-12
-Y = np.arange(0, img.shape[0], pas)
-13
-U, V = np.meshgrid(X, Y)
-14
-gx=np.float32(sobelx)[0:img.shape[0]:pas,0:img.shape[1]:pas]
-15
-print (gx.shape)
-16
-print (U.shape)
-17
-gy=np.float32(sobely)[0:img.shape[0]:pas,0:img.shape[1]:pas]
-18
-fig, ax = plt.subplots()
-19
-q = ax.quiver(X, Y,gx , gy, scale=100000)
-20
-21
-22
-plt.show()
+
+import Images.image_save as imsa
+
+#Permet d'obtenir les contours d'une image (problème : l'image est affichée à l'envers)
+#Voir comment obtenir les vecteurs correspondants ()
+
+
+#img = cv.imread('Data/Mer/qqqqq.jpeg',0)
+#img = cv.resize(img, (500,500))
+
+#sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+
+#print (sobelx.shape)
+#print(sobelx.flatten().shape)
+#sobely = cv.Sobel(img,cv.CV_64F,0,1,ksize=5)
+
+
+#plt.subplot(2,2,3),plt.imshow(sobelx,cmap = 'gray')
+#plt.title('Sobel X'), plt.xticks([]), plt.yticks([])
+#plt.subplot(2,2,4),plt.imshow(sobely,cmap = 'gray')
+#plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
+#plt.show()
+
+#
+# Retourne les gradients des images mises en taille img_width x img_hight et les étiquettes
+#
+
+def dataSobelY(dirPath, img_width, img_hight):
+    
+    data=[]
+    target=[]
+    
+    seaPath = dirPath+"/Mer/"
+    otherPath = dirPath+"/Ailleurs/"
+    
+    seaFileList = listdir(seaPath)
+    otherFileList = listdir(otherPath)
+    print(len(seaFileList))
+    for iSea in range(0,len(seaFileList)-1):
+        img_path = ""+ seaPath + seaFileList[iSea]
+        img = cv.imread(data_path,0)
+        img = img.resize(img, (img_width,img_hight))
+        sobely = cv.Sobel(img,cv.CV_64F,0,1,ksize=5)
+        data.append(sobely.flatten())
+        target.append(1)
+
+    for iOther in range(0,len(otherFileList)-1):
+        img_path = ""+otherPath+otherFileList[iOther]
+        img = cv.imread(data_path,0)
+        img = img.resize(img, (img_width,img_hight))
+        sobely = cv.Sobel(img,cv.CV_64F,0,1,ksize=5)
+        data.append(sobely.flatten())
+        target.append(-1)
+
+    data=numpy.asarray(data)
+    target=numpy.asarray(target)
+    print(data.shape)
+    print(target.shape)
+
+    return data,target
