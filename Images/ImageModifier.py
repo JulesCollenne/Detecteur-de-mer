@@ -1,6 +1,8 @@
 import sys
 import os
 from PIL import Image
+from math import sqrt
+import time
 
 # @param objet Image
 # @return objet Image
@@ -30,20 +32,59 @@ def mirror(img):
 # @param objet Image, nombre de nouvelles images, nom de dossier
 # Prend l'image passé en argument, en créer nb copies ayant subit une rotation (écart de rotation proportionelle au nombre)
 # et stock ces images dans le dossier voulu
-def createRotatedSamples(img, nb, folder):
+def createRotatedSamples(img_path, nb, folder):
+    img = Image.open(img_path)
     os.makedirs(folder, exist_ok=True)
-    nbrotates=360/nb
+    rotateMargin = 60
+    nbrotates= rotateMargin/nb
     k=0
-    r=0
+    r=0-rotateMargin/2
     while(k<nb-1):
         r = r+nbrotates
         imgF = img.rotate(r, Image.BICUBIC, True)
         name = "generated"+str(r)+".jpg"
         imgF.save(folder+'/'+name)
         k=k+1
+        time.sleep(1)        
 
+# @param chemin d'une Image
+# @return objet Image
+# Prend en argument le chemin d'une image et créer l'équivalent de cette image en noir et blanc, puis la retourne.
+def blackAndWhite(img_path):
+    img = Image.open(img_path)
+    imgN = Image.new(img.mode, img.size)
+    column, line = imgN.size
+    for i in range(line):
+        for j in range(column):
+            pixel = img.getpixel((j,i))
+            pixelbw = int(pixel[0]/3+pixel[1]/3+pixel[2]/3)
+            p = (pixelbw, pixelbw, pixelbw)
+            imgN.putpixel((j,i),p)
+    return imgN;
+
+# @param objet Image, seuil
+# @return objet Image
+# Prend en argument une Image et un seuil, puis met en noir les pixels ayant des pixels voisin de couleur différentes
+# en fonction du seuil donné
+def shapeDetection(img, treshold):
+    imgS = Image.new(img.mode, img.size)
+    column, line = imgN.size
+    for i in range(1,line-1):
+        for j in range(1,column-1):
+            p1 = img.getpixel((j-1,i))
+            p2 = img.getpixel((j,i-1))
+            p3 = img.getpixel((j+1,i))
+            p4 = img.getpixel((j,i+1))
+            n = sqrt((p1[0]-p3[0])*(p1[0]-p3[0]) + (p2[0]-p4[0])*(p2[0]-p4[0]))
+            if n < treshold:
+                p = (255,255,255)
+            else:
+                p = (0,0,0)
+            imgS.putpixel((j-1,i-1),p)
+    return imgS;
+    
 ######################To_Execute######################
-'''
+
 #Ouverture du fichier image
 ImageFile = '../Data/Mer/aaaaa.jpeg'
 try:
@@ -53,19 +94,28 @@ except IOError:
   sys.exit(1)
 
 #Affichage l'image de base
-img.show()
+#img.show()
 
 #Negatif de l'Image
 imgN = negative(img)
-imgN.show()
+#imgN.show()
 
 #Miroir de l'Image
 imgM = mirror(img)
-imgM.show()
+#imgM.show()
 
-createRotatedSamples(imgN,10, "output")
+#Noir et blanc de l'image
+imgBW = blackAndWhite(ImageFile)
+#imgBW.show()
+
+#Detection de contours de l'image
+imgT = shapeDetection(imgBW, 30)
+#imgT.show()
+
+
+#createRotatedSamples(ImageFile,10, "output")
 
 #Fermeture du fichier image
 img.close()
-'''
+
 ######################To_Execute######################
