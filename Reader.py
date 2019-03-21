@@ -15,7 +15,7 @@ def dataHistogramme(dirPath):
     
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
-    print(len(seaFileList))
+    #print(len(seaFileList))
     for iSea in range(0,len(seaFileList)-1):
         img_path = ""+ seaPath + seaFileList[iSea]
         data.append(Hi.VectorHistogrammeC(img_path))
@@ -28,8 +28,8 @@ def dataHistogramme(dirPath):
 
     data=numpy.asarray(data)
     target=numpy.asarray(target)
-    print(data.shape)
-    print(target.shape)
+    #print(data.shape)
+    #print(target.shape)
 
     return data,target
 
@@ -44,7 +44,7 @@ def dataColorRates(dirPath):
     
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
-    print(len(seaFileList))
+    #print(len(seaFileList))
     for iSea in range(0,len(seaFileList)-1):
         img_path = ""+ seaPath + seaFileList[iSea]
         data.append(Cr.getColorRates(img_path))
@@ -57,8 +57,8 @@ def dataColorRates(dirPath):
 
     data=numpy.asarray(data)
     target=numpy.asarray(target)
-    print(data.shape)
-    print(target.shape)
+    #print(data.shape)
+    #print(target.shape)
 
     return data,target
 
