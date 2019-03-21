@@ -6,6 +6,8 @@ def Bayses(data, target):
     data_test = train_test_split(data, target
                                  , random_state=0
                                  , train_size=0.8)
+
+
     data_train, data_test, target_train, target_test = data_test
 
 #train
@@ -14,4 +16,4 @@ def Bayses(data, target):
 #predict
     result = clf.predict(data_test)
 #score
-    print(accuracy_score(result, target_test))
+    return (accuracy_score(result, target_test))
