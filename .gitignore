@@ -1,2 +1,4 @@
-__pycache__/*
-Images/__pycache__/*
+/__pycache__/*
+*/__pycache__/*
+
+output_Model/*
