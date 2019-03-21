@@ -10,7 +10,7 @@ def Bayes(data, target):
     #train
     clf = GaussianNB()
     clf.fit(data_train, target_train)
-    model.save_Model('Bayses.sav',clf)
+    model.save_Model('Bayes.sav',clf)
     #predict
     result = clf.predict(data_test)
     #score
