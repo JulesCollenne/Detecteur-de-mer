@@ -3,6 +3,7 @@
 import argparse
 import Reader as re
 import Algorithm.bayes as alg
+import Algorithm.ada_boost as alg2
 
 
 ap=argparse.ArgumentParser()
@@ -13,9 +14,18 @@ args=vars(ap.parse_args())
 pathTrain=args["train"]
 pathPredict=args["predict"]
 
+accuracy = 0
 if(pathTrain is not None):
-    data,target =re.dataHistogramme(pathTrain)
-    alg.Bayses(data,target)
+    
+    for _ in range(20):  
+        data,target =re.dataHistogramme(pathTrain)
+        #print(alg.Bayses(data,target))
+        accuracy += alg.Bayses(data,target)
+        #print(alg2.ada_boost(data, target))
+        #accuracy += alg2.ada_boost(data, target)
+    print("acc = ", accuracy/20)
+    
+    
     
 if(pathPredict is not None):
     pass
