@@ -4,6 +4,7 @@ import argparse
 import Reader as re
 import Algorithm.bayes as alg
 import Algorithm.ada_boost as alg2
+import Test as sob
 
 
 ap=argparse.ArgumentParser()
@@ -18,7 +19,7 @@ accuracy = 0
 if(pathTrain is not None):
     
     for _ in range(20):  
-        data,target =re.dataHistogramme(pathTrain)
+        data,target =sob.dataSobel(pathTrain)
         #print(alg.Bayses(data,target))
         accuracy += alg.Bayses(data,target)
         #print(alg2.ada_boost(data, target))
