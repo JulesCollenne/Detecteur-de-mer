@@ -11,7 +11,7 @@ def packet_generator(packet_count, dir):
     
     seed()
     #if os.path.isfile(name)
-    image_list = [(dir + 'Ailleur/' + name) for name in os.listdir(dir + 'Ailleurs')]
+    image_list = [(dir + 'Ailleurs/' + name) for name in os.listdir(dir + 'Ailleurs')]
     target_list = [-1 for t1 in range(len(image_list))]
     
     temporary_list = [(dir + 'Mer/' + name) for name in os.listdir(dir + 'Mer')]
