@@ -3,6 +3,7 @@ import os
 from PIL import Image
 from math import sqrt
 import time
+import cv2 as cv
 
 # @param objet Image
 # @return objet Image
@@ -66,9 +67,10 @@ def blackAndWhite(img_path):
 # @return objet Image
 # Prend en argument une Image et un seuil, puis met en noir les pixels ayant des pixels voisin de couleur différentes
 # en fonction du seuil donné
-def shapeDetection(img, treshold):
+def shapeDetection(img_path, treshold):
+    img = Image.open(img_path)
     imgS = Image.new(img.mode, img.size)
-    column, line = imgN.size
+    column, line = imgS.size
     for i in range(1,line-1):
         for j in range(1,column-1):
             p1 = img.getpixel((j-1,i))
@@ -82,11 +84,57 @@ def shapeDetection(img, treshold):
                 p = (0,0,0)
             imgS.putpixel((j-1,i-1),p)
     return imgS;
+
+##############################
     
+def shapeDetectionCV(img, treshold):
+    column = img.shape[0]
+    line = img.shape[1]
+    #print(img.shape)
+    for i in range(1,line-1):
+        for j in range(1,column-1):
+            p1 = img[j-1][i]
+            p2 = img[j][i-1]
+            p3 = img[j+1][i]
+            p4 = img[j][i+1]
+            n = sqrt((p1-p3)*(p1-p3) + (p2-p4)*(p2-p4))
+            if n < treshold:
+                p = (255,255,255)
+            else:
+                p = (0,0,0)
+            img[j-1][i-1] = p[0]
+    return img;
+
+#flatten
+def flatten(img):
+    column, line = img.size
+    Vec=[]
+    for i in range(line):
+        for j in range(column):
+            pixel = img.getpixel((j,i))
+            #print(pixel[0])
+            Vec.append(pixel[0])
+            Vec.append(pixel[1])
+            Vec.append(pixel[2])
+    return Vec
+    
+##########################
+
+def flattenCV(img):
+    column, line = img.size
+    Vec=[]
+    for i in range(line):
+        for j in range(column):
+            pixel = img.getpixel((j,i))
+            #print(pixel[0])
+            Vec.append(pixel[0])
+            Vec.append(pixel[1])
+            Vec.append(pixel[2])
+    return Vec
 ######################To_Execute######################
 
 #Ouverture du fichier image
-ImageFile = '../Data/Mer/aaaaa.jpeg'
+ImageFile = '../Data/Mer/xlou.jpeg'
 try:
   img = Image.open(ImageFile)
 except IOError:
@@ -97,20 +145,21 @@ except IOError:
 #img.show()
 
 #Negatif de l'Image
-imgN = negative(img)
+#imgN = negative(img)
 #imgN.show()
 
 #Miroir de l'Image
-imgM = mirror(img)
+#imgM = mirror(img)
 #imgM.show()
 
 #Noir et blanc de l'image
-imgBW = blackAndWhite(ImageFile)
+#imgBW = blackAndWhite(ImageFile)
 #imgBW.show()
 
 #Detection de contours de l'image
-imgT = shapeDetection(imgBW, 30)
+#imgT = shapeDetection(ImageFile, 30)
 #imgT.show()
+#print(flatten(imgT))
 
 
 #createRotatedSamples(ImageFile,10, "output")

@@ -5,10 +5,13 @@ import numpy
 import Images.ColorRates as Cr
 from PIL import Image
 
+
+
 def dataHistogramme(dirPath):
     
     data=[]
     target=[]
+    GlobalImgOrder=[]
     
     seaPath = dirPath+"/Mer/"
     otherPath = dirPath+"/Ailleurs/"
@@ -18,10 +21,12 @@ def dataHistogramme(dirPath):
 
     for iSea in range(0,len(seaFileList)-1):
         img_path = ""+ seaPath + seaFileList[iSea]
+        GlobalImgOrder.append(img_path)
         data.append(Hi.VectorHistogrammeC(img_path))
         target.append(1)
 
     for iOther in range(0,len(otherFileList)-1):
+        GlobalImgOrder.append(img_path)
         img_path = ""+otherPath+otherFileList[iOther]
         data.append(Hi.VectorHistogrammeC(img_path))
         target.append(-1)
@@ -29,7 +34,7 @@ def dataHistogramme(dirPath):
     data=numpy.asarray(data)
     target=numpy.asarray(target)
 
-    return data,target
+    return data,target,GlobalImgOrder
 
 
 def dataHistogrammeCross(name_packets, target_packets):

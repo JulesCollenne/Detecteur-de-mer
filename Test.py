@@ -11,6 +11,7 @@ import Images.ImageModifier as im
 import Reader as re
 from os import listdir
 from os.path import isfile, join
+from PIL import Image
 
 #Permet d'obtenir les contours d'une image (problème : l'image est affichée à l'envers)
 #Voir comment obtenir les vecteurs correspondants ()
@@ -122,6 +123,7 @@ def dataSobel (dirpath):
         sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
         sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
         sobel = np.concatenate((sobelx,sobely),axis = 1)
+        print(len(sobel.flatten()))
         data.append(sobel.flatten())
         target.append(1)
 
@@ -132,6 +134,7 @@ def dataSobel (dirpath):
         sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
         sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
         sobel = np.concatenate((sobelx,sobely),axis = 1)
+        print(len(sobel.flatten()))
         data.append(sobel.flatten())
         target.append(-1)
 
@@ -140,6 +143,56 @@ def dataSobel (dirpath):
   
 
     return data,target
+
+def trueSobel(dirpath):
+    data=[]
+    target=[]
+    
+    seaPath = dirpath+"/Mer/"
+    otherPath = dirpath+"/Ailleurs/"
+    
+    seaFileList = listdir(seaPath)
+    otherFileList = listdir(otherPath)
+    
+    for iSea in range(0,len(seaFileList)-1):
+        img_path = ""+ seaPath + seaFileList[iSea]
+        img = cv.imread(img_path,0)
+        img = cv.resize(img, DataShape)
+        img = (im.shapeDetectionCV(img,30))
+        #print("la ! :",imgf)
+        data.append(img.flatten())
+        target.append(1)
+
+    for iOther in range(0,len(otherFileList)-1):
+        img_path = ""+otherPath+otherFileList[iOther]
+        print(iOther)
+        img = (im.shapeDetectionCV(img,30))
+        data.append(img.flatten())
+        target.append(-1)
+
+    data=np.asarray(data)
+    #print(data.shape)
+    target=np.asarray(target)
+    #print(target.shape)
+    return data, target
+
+
+def trueSobelPredict(dirpath):
+    data=[]
+    fileName=[]
+    fileList=listdir(dirpath)
+    for i in range(0,len(fileList)-1):
+        img_path = ""+ dirpath +"/"+ fileList[i]
+        img = cv.imread(img_path,0)
+        img = cv.resize(img, DataShape)
+        img = (im.shapeDetectionCV(img,30))
+        #print("la ! :",imgf)
+        data.append(img.flatten())
+        fileName.append(fileList[i])
+
+    data=np.asarray(data)
+    #print(target.shape)
+    return data, fileName
 
 def SobelImage(dirPath):
     data=[]
