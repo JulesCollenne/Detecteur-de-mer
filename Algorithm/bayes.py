@@ -11,15 +11,14 @@ from Algorithm import Model as model
 
 
 
-def Bayes(data, target):
-    data_test = train_test_split(data, target, train_size=0.8, test_size=0.2)
-    data_train, data_test, target_train, target_test = data_test
+def Bayes(X_train, X_test, y_train, y_test):
     #train
     clf = GaussianNB()
-    clf.fit(data_train, target_train)
+    clf.fit(X_train,y_train)
     model.save_Model('Bayes.sav',clf)
     #predict
-    result = clf.predict(data_test)
+    result = clf.predict(X_test)
     #score
-    return (accuracy_score(result, target_test))
+    #return (accuracy_score(result, y_test))
+    return result
 
