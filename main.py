@@ -2,22 +2,38 @@
 # -*- coding: utf-8 -*-
 import argparse
 import Reader as re
-import Algorithm.bayes as alg
 
+
+
+import Test as sob
+
+import Algorithm.bayes as bayes
+import Algorithm.ada_boost as ada
+import Algorithm.Model as model
 
 ap=argparse.ArgumentParser()
-ap.add_argument("-t","--train",required= False, help="Path to Data Folder")
+ap.add_argument("-f","--fit",required= False, help="Path to Data Folder")
 ap.add_argument("-p","--predict",required=False, help="Path to Data Folder")
 args=vars(ap.parse_args())
 
-pathTrain=args["train"]
+pathTrain=args["fit"]
 pathPredict=args["predict"]
 
-if(pathTrain is not None):
+
+accuracy_bayes = 0
+accuracy_ada = 0
+
+if(pathTrain is not None):    
     data,target =re.dataHistogramme(pathTrain)
-    alg.Bayses(data,target)
+    for _ in range(20):          
+        accuracy_bayes += bayes.Bayes(data,target)        
+        accuracy_ada += ada.ada_boost(data, target)
+    print("Bayses = ", accuracy_bayes/20)
+    print("AdaBoost = ", accuracy_ada/20)
+    
+    
     
 if(pathPredict is not None):
-    pass
-    #predict() to do
+    print("Bayses loaded = "+str(model.load_Model('Bayes.sav', pathPredict)))
+    print("AdaBoost loaded = "+str(model.load_Model('AdaBoost.sav', pathPredict)))
     

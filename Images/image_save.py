@@ -17,7 +17,7 @@ IMG_SIZE = (IMG_l, IMG_L)
 #
 def get_images(folder):
     imgs = []
-    path = "/amuhome/c16009858/AA/" + folder
+    path = "/amuhome/p18031960/Detecteur-de-mer/Data/" + folder
     valid_images = [".jpeg"]
     i = 0
     for f in os.listdir(path):
@@ -102,11 +102,11 @@ def modificationsImage():
     cv2.destroyAllWindows()
 
 # On récupère les images de type Image
-imgs_mer = resize_images(get_images("Mer"))
-imgs_ailleurs = resize_images(get_images("Ailleurs"))
+#imgs_mer = resize_images(get_images("Mer"))
+#imgs_ailleurs = resize_images(get_images("Ailleurs"))
 
-imgs_mer[0].show()
+#imgs_mer[0].show()
 
-imgs_mer = image_to_array(imgs_mer)
+#imgs_mer = image_to_array(imgs_mer)
 
-print(imgs_mer[0][0][0][0], imgs_mer[0][0][0][1], imgs_mer[0][0][0][2])
+#print(imgs_mer[0][0][0][0], imgs_mer[0][0][0][1], imgs_mer[0][0][0][2])
