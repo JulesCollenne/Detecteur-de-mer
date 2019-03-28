@@ -1,0 +1,8 @@
+Sobel + Images brutes = 56%
+Adaboost = 61%
+
+Images brutes = 65%
+Adaboost = 60%
+
+Sobel = 60%
+Adaboost = 60%

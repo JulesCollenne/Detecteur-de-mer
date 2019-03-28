@@ -33,6 +33,24 @@ def dataHistogramme(dirPath):
 
     return data,target
 
+def dataHistogrammePredict(dirPath):
+    
+    data=[]
+    file=[]
+    fileList = listdir(dirPath)
+    
+   # print(len(seaFileList))
+    for i in range(0,len(fileList)-1):
+        file.append(fileList[i])
+        img_path = ""+ dirPath +"/"+ fileList[i]
+        print(img_path)
+        data.append(Hi.VectorHistogrammeC(img_path))
+
+    data=numpy.asarray(data)  
+
+    return data, file
+
+
 
 def dataColorRates(dirPath):
     

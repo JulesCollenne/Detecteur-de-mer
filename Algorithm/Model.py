@@ -2,6 +2,7 @@
 import pickle
 from sklearn.metrics import accuracy_score
 import os
+import Test as sob
 
 import sys
 sys.path.insert(0,'..')
@@ -10,11 +11,10 @@ sys.path.insert(0,'')
 
 folder = 'output_Model'
 
-def load_Model(f, pathPredict):
-    data,target =re.dataHistogramme(pathPredict)
+def load_Model(f, data):
     loadeded_model=pickle.load(open(folder+'/'+f,'rb'))
     result=loadeded_model.predict(data)
-    return(accuracy_score(result, target))
+    return result
     
 def save_Model(filename,model):
     os.makedirs(folder, exist_ok=True)

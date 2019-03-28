@@ -177,6 +177,28 @@ def SobelImage(dirPath):
   
 
     return data,target
+
+def SobelImagePredict(dirPath):
+    data=[]
+    file=[]
+    fileList = listdir(dirPath)
+    
+   # print(len(seaFileList))
+    for i in range(0,len(fileList)-1):
+        file.append(fileList[i])
+        img_path = ""+ dirPath +"/"+ fileList[i]
+        print(img_path)
+        img = cv.imread(img_path,1)
+        img = cv.resize(img, DataShape)
+        sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobel = np.concatenate((sobelx,sobely),axis = 1)
+        d = np.concatenate((sobel,img),axis = 1)
+        data.append(d.flatten())
+
+    data=np.asarray(data)  
+
+    return data, file
     
 #data, target = dataSobel ("Data")
 #print(data.shape)

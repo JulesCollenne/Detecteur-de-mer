@@ -35,7 +35,7 @@ def mirror(img):
 def createRotatedSamples(img_path, nb, folder):
     img = Image.open(img_path)
     os.makedirs(folder, exist_ok=True)
-    rotateMargin = 60
+    rotateMargin = 5
     nbrotates= rotateMargin/nb
     k=0
     r=0-rotateMargin/2
@@ -86,6 +86,7 @@ def shapeDetection(img, treshold):
 ######################To_Execute######################
 
 #Ouverture du fichier image
+    """
 ImageFile = '../Data/Mer/aaaaa.jpeg'
 try:
   img = Image.open(ImageFile)
@@ -119,3 +120,4 @@ imgT = shapeDetection(imgBW, 30)
 img.close()
 
 ######################To_Execute######################
+"""

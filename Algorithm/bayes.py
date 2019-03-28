@@ -12,14 +12,20 @@ from Algorithm import Model as model
 
 
 def Bayes(data, target):
-    data_test = train_test_split(data, target, train_size=0.8, test_size=0.2)
-    data_train, data_test, target_train, target_test = data_test
+    data_train, data_test, target_train, target_test = train_test_split(data, target, train_size=0.8, test_size=0.2)
     #train
     clf = GaussianNB()
     clf.fit(data_train, target_train)
     model.save_Model('Bayes.sav',clf)
     #predict
-    result = clf.predict(data_test)
+    predictions = clf.predict(data_test)
+    print(predictions)
+    i = 0
+    #for  prediction, target in zip( predictions, target):
+       # i += 1
+        #if prediction != target:
+           #print(i, 'has been classified as ', prediction, 'and should be ', target)
+        
     #score
-    return (accuracy_score(result, target_test))
+    return (accuracy_score(predictions, target_test))
 
