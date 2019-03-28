@@ -19,3 +19,9 @@ def load_Model(f, pathPredict):
 def save_Model(filename,model):
     os.makedirs(folder, exist_ok=True)
     pickle.dump(model,open(folder+'/'+filename,'wb'))
+
+def simple_load(model_path):
+    model = pickle.load(open(model_path,'rb'))
+    
+    return model
+
