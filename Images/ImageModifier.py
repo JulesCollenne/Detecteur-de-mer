@@ -46,7 +46,7 @@ def createRotatedSamples(img_path, nb, folder):
         name = "generated"+str(r)+".jpg"
         imgF.save(folder+'/'+name)
         k=k+1
-        time.sleep(1)        
+        time.sleep(1)
 
 # @param chemin d'une Image
 # @return objet Image
@@ -86,7 +86,7 @@ def shapeDetection(img_path, treshold):
     return imgS;
 
 ##############################
-    
+
 def shapeDetectionCV(img, treshold):
     column = img.shape[0]
     line = img.shape[1]
@@ -117,7 +117,7 @@ def flatten(img):
             Vec.append(pixel[1])
             Vec.append(pixel[2])
     return Vec
-    
+
 ##########################
 
 def flattenCV(img):
