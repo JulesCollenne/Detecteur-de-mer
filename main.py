@@ -3,8 +3,9 @@
 import argparse
 import numpy as np
 import Reader as re
+import time
 
-import Test as sob
+import Sobel as sob
 import Algorithm.bayes as bayes
 import Algorithm.ada_boost as ada
 import Algorithm.Model as model
@@ -25,31 +26,48 @@ pathTrain=args["fit"]
 pathPredict=args["predict"]
 
 
-accuracy_bayes = []
-accuracy_ada = []
-accuracy_svm=[]
+accuracy_bayes_h=0
+accuracy_ada_h=0
+accuracy_svm_h=0
+accuracy_bayes_s=0
+accuracy_ada_s=0
+accuracy_svm_s=0
+tmp_accracy_bayes_h=0
+tmp_accracy_ada_h=0
+tmp_accracy_svm_h=0
+tmp_accracy_bayes_s=0
+tmp_accracy_ada_s=0
+tmp_accracy_svm_s=0
 accuracy=0
 
-if(pathTrain is not None):   
+if(pathTrain is not None):
     #data,target = re.dataHistogramme(pathTrain)
     #data2,target2 = sob.dataSobel(pathTrain)
     #SobelHistogrammeData=np.concatenate((data2,data),axis = 1)
     #ada.ada_boostParam(data,target)
     #svm.svmModelParam(SobelHistogrammeData,target)
+    tmps1=time.clock()
     nbIter=0
     Dataname, targetName=re.NameTarget(pathTrain)
     for i in range(5): #Moyenne de i iteration
-        print(nbIter," start")
+        print("-- test",nbIter,"start --")
+        tmpsL=time.clock()
         X_train, X_test, y_train, y_test = train_test_split(Dataname, targetName, train_size=0.8, test_size=0.2)
         X_Histo_train=re.getHistogramme(X_train)
         X_Sobel_train=sob.getSobel(X_train)
+        #X_Sobel_train=sob.getFastSobel(X_train)
         X_Histo_test=re.getHistogramme(X_test)
         X_Sobel_test=sob.getSobel(X_test)
-        #print(X_train.shape)
-        #print("X_train : ",X_Histo_train.shape)
-        #print("X_test : ",X_Histo_test.shape)
+        #X_Sobel_test=sob.getFastSobel(X_test)
+        tmps2=time.clock()
+        print("Learning time : " ,round((tmps2-tmpsL),4),'sec\n')
+        #print("X_train : ",X_train.shape)
+        #print("X_test : ",X_test.shape)
         #print("y_train : ",y_train.shape)
         #print("y_test : ",y_test.shape)
+        #print("X_train histo : ", X_Histo_train.shape)
+        #print("X_train sobel : ", X_Sobel_train.shape)
+        #exit()
         print('bayes_Histo')
         accuracy_bayes_Histo = bayes.BayesHisto(X_Histo_train, X_Histo_test, y_train, y_test)
         print('ada_Histo')
@@ -64,33 +82,56 @@ if(pathTrain is not None):
         accuracy_svm_Sobel   = svm.svmModelDataSobel(X_Sobel_train, X_Sobel_test, y_train, y_test)
         #print('bagging')
         #accuracy_bagging=bag.baggingModel(X_train, X_test, y_train, y_test)
-        vector = [accuracy_bayes_Histo*(accuracy_score(accuracy_bayes_Histo,y_test)/100),
-                  accuracy_ada_Histo*(accuracy_score(accuracy_ada_Histo,y_test)/100),
-                  accuracy_svm_Histo*(accuracy_score(accuracy_svm_Histo,y_test)/100),
-                  accuracy_bayes_Sobel*(accuracy_score(accuracy_bayes_Sobel,y_test)/100),
-                  accuracy_ada_Sobel*(accuracy_score(accuracy_ada_Sobel,y_test)/100),
-                  accuracy_svm_Sobel*(accuracy_score(accuracy_svm_Sobel,y_test)/100)]
-        print(vector)
+        tmp_accracy_bayes_h = accuracy_score(accuracy_bayes_Histo,y_test)
+        tmp_accracy_ada_h = accuracy_score(accuracy_ada_Histo,y_test)
+        tmp_accracy_svm_h = accuracy_score(accuracy_svm_Histo,y_test)
+        tmp_accracy_bayes_s = accuracy_score(accuracy_bayes_Sobel,y_test)
+        tmp_accracy_ada_s = accuracy_score(accuracy_ada_Sobel,y_test)
+        tmp_accracy_svm_s = accuracy_score(accuracy_svm_Sobel,y_test)
+
+        vector = [accuracy_bayes_Histo*(tmp_accracy_bayes_h),
+                  accuracy_ada_Histo*(tmp_accracy_ada_h),
+                  accuracy_svm_Histo*(tmp_accracy_svm_h),
+                  accuracy_bayes_Sobel*(tmp_accracy_bayes_s),
+                  accuracy_ada_Sobel*(tmp_accracy_ada_s),
+                  accuracy_svm_Sobel*(tmp_accracy_svm_s)]
+
+        print('\n')
+        for i in range(len(vector)):
+            print(vector[i],'\n')
         voteResult=moy.Votes(vector)
         accuracy+=accuracy_score(voteResult, y_test)
         nbIter+=1
-        print("bayes_Histo : ",accuracy_score(accuracy_bayes_Histo,y_test))
-        print("ada_Histo : ",accuracy_score(accuracy_ada_Histo,y_test))
-        print("SVM_Histo : ",accuracy_score(accuracy_svm_Histo,y_test))
-        print("bayes_Sobel : ",accuracy_score(accuracy_bayes_Sobel,y_test))
-        print("ada_Sobel : ",accuracy_score(accuracy_ada_Sobel,y_test))
-        print("SVM_Sobel : ",accuracy_score(accuracy_svm_Sobel,y_test))
+
+        print("bayes_Histo : ",tmp_accracy_bayes_h)
+        print("ada_Histo : ",tmp_accracy_ada_h)
+        print("SVM_Histo : ",tmp_accracy_svm_h)
+        print("bayes_Sobel : ",tmp_accracy_bayes_s)
+        print("ada_Sobel : ",tmp_accracy_ada_s)
+        print("svm_Sobel : ",tmp_accracy_svm_s)
         #print("bagging : ",accuracy_score(accuracy_bagging,y_test))
-        print("Vote : ",accuracy_score(voteResult, y_test))
-   
-        
-        
-    #print("Bayses = ", accuracy_bayes/20)
-    #print("AdaBoost = ", accuracy_ada/20)
-    #print("Svm = ", accuracy_svm/20)
-    print("vote Moyenne = ",accuracy/nbIter)
-    
-    
+        accuracy_bayes_h += tmp_accracy_bayes_h
+        accuracy_ada_h += tmp_accracy_ada_h
+        accuracy_svm_h += tmp_accracy_svm_h
+        accuracy_bayes_s += tmp_accracy_bayes_s
+        accuracy_ada_s += tmp_accracy_ada_s
+        accuracy_svm_s += tmp_accracy_svm_s
+        print("Vote test",nbIter,": ",accuracy_score(voteResult, y_test),'\n')
+        tmps3=time.clock()
+        print("Execution time : " ,round((tmps3-tmps2),4),'sec\n')
+
+    print("---------------------------------------------")
+    print("bayes_Histo average : ",accuracy_bayes_h/nbIter)
+    print("ada_Histo average : ",accuracy_ada_h/nbIter)
+    print("SVM_Histo average : ",accuracy_svm_h/nbIter)
+    print("bayes_Sobel average : ",accuracy_bayes_s/nbIter)
+    print("ada_Sobel average : ",accuracy_ada_s/nbIter)
+    print("SVM_Sobel average : ",accuracy_svm_s/nbIter)
+    print("Average of votes = ",accuracy/nbIter)
+    tmpsF=time.clock()
+    print("Final execution time : " ,round((tmpsF-tmps1),4),'sec\n')
+
+
 if(pathPredict is not None):
     dataSobel,fileList =sob.dataSobelPredict(pathPredict)
     dataHisto, fileList2= re.dataHistogrammePredict(pathPredict)
@@ -102,7 +143,9 @@ if(pathPredict is not None):
     resultAdaHisto=model.load_Model('AdaBoostHisto.sav',dataHisto)
     resultSvmHisto=model.load_Model('svmHisto.sav',dataHisto)
     vector=[resultBayesSobel,resultAdaSobel,resultSvmSobel,resultBayesHisto,resultAdaHisto,resultSvmHisto]
-    print(vector)
+    #print(vector)
     voteResult=moy.Votes(vector)
-    #print (voteResult)
-    JsonOut.outPutJson(fileList,voteResult)
+    for i in range(len(vector)):
+        print(vector[i],'\n')
+
+    JsonOut.outPutJson(fileList, pathPredict, voteResult)
