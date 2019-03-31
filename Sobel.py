@@ -39,13 +39,13 @@ from PIL import Image
 DataShape = (200,200)
 
 def dataSobelY(dirPath):
-    
+
     data=[]
     target=[]
-    
+
     seaPath = dirPath+"/Mer/"
     otherPath = dirPath+"/Ailleurs/"
-    
+
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
    # print(len(seaFileList))
@@ -74,13 +74,13 @@ def dataSobelY(dirPath):
 
 
 def dataSobelX(dirPath):
-    
+
     data=[]
     target=[]
-    
+
     seaPath = dirPath+"/Mer/"
     otherPath = dirPath+"/Ailleurs/"
-    
+
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
    # print(len(seaFileList))
@@ -102,17 +102,17 @@ def dataSobelX(dirPath):
 
     data=np.asarray(data)
     target=np.asarray(target)
-  
+
 
     return data,target
 
 def dataSobel (dirpath):
     data=[]
     target=[]
-    
+
     seaPath = dirpath+"/Mer/"
     otherPath = dirpath+"/Ailleurs/"
-    
+
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
    # print(len(seaFileList))
@@ -140,7 +140,7 @@ def dataSobel (dirpath):
 
     data=np.asarray(data)
     target=np.asarray(target)
-  
+
 
     return data,target
 
@@ -157,16 +157,27 @@ def getSobel(fileNameList):
     data=np.asarray(data)
     return data
 
+def getFastSobel(fileNameList):
+    data=[]
+    for i in range(len(fileNameList)):
+        img = cv.imread(fileNameList[i],0)
+        img = cv.resize(img, DataShape)
+        sobel = (im.shapeDetectionCV(img,30))
+        #print(len(sobel.flatten()))
+        data.append(sobel.flatten())
+    data=np.asarray(data)
+    return data
+
 def trueSobel(dirpath):
     data=[]
     target=[]
-    
+
     seaPath = dirpath+"/Mer/"
     otherPath = dirpath+"/Ailleurs/"
-    
+
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
-    
+
     for iSea in range(0,len(seaFileList)-1):
         img_path = ""+ seaPath + seaFileList[iSea]
         img = cv.imread(img_path,0)
@@ -224,16 +235,16 @@ def dataSobelPredict (dirpath):
         fileName.append(img_path)
 
     data=np.asarray(data)
-  
+
     return data,fileName
 
 def SobelImage(dirPath):
     data=[]
     target=[]
-    
+
     seaPath = dirPath+"/Mer/"
     otherPath = dirPath+"/Ailleurs/"
-    
+
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
    # print(len(seaFileList))
@@ -260,10 +271,10 @@ def SobelImage(dirPath):
 
     data=np.asarray(data)
     target=np.asarray(target)
-  
+
 
     return data,target
-    
+
 #data, target = dataSobel ("Data")
 #print(data.shape)
 #print(target.shape)
@@ -271,10 +282,10 @@ def SobelImage(dirPath):
 def getDataImage(dirPath):
     data=[]
     target=[]
-    
+
     seaPath = dirPath+"/Mer/"
     otherPath = dirPath+"/Ailleurs/"
-    
+
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
     for iSea in range(0,len(seaFileList)-1):
@@ -307,10 +318,10 @@ def dataConcat (dirPath):
     return data, target
 
 
-def createMirrorImages(dirPath): 
+def createMirrorImages(dirPath):
     seaPath = dirPath+"/Mer/"
     otherPath = dirPath+"/Ailleurs/"
-    
+
     seaFileList = listdir(seaPath)
     otherFileList = listdir(otherPath)
     for iSea in range(0,len(seaFileList)-1):
@@ -324,5 +335,5 @@ def createMirrorImages(dirPath):
         img = cv.imread(img_path,1)
         img = cv.flip(img,1)
         cv.imwrite( img_path+"Mirr.jpeg", img );
-        
+
 #createMirrorImages("Data")
