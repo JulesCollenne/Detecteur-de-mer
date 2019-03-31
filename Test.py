@@ -123,7 +123,7 @@ def dataSobel (dirpath):
         sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
         sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
         sobel = np.concatenate((sobelx,sobely),axis = 1)
-        print(len(sobel.flatten()))
+        #print(len(sobel.flatten()))
         data.append(sobel.flatten())
         target.append(1)
 
@@ -134,7 +134,7 @@ def dataSobel (dirpath):
         sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
         sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
         sobel = np.concatenate((sobelx,sobely),axis = 1)
-        print(len(sobel.flatten()))
+        #print(len(sobel.flatten()))
         data.append(sobel.flatten())
         target.append(-1)
 
@@ -143,6 +143,19 @@ def dataSobel (dirpath):
   
 
     return data,target
+
+def getSobel(fileNameList):
+    data=[]
+    for i in range(len(fileNameList)):
+        img = cv.imread(fileNameList[i],0)
+        img = cv.resize(img, DataShape)
+        sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobel = np.concatenate((sobelx,sobely),axis = 1)
+        #print(len(sobel.flatten()))
+        data.append(sobel.flatten())
+    data=np.asarray(data)
+    return data
 
 def trueSobel(dirpath):
     data=[]
@@ -193,6 +206,26 @@ def trueSobelPredict(dirpath):
     data=np.asarray(data)
     #print(target.shape)
     return data, fileName
+
+def dataSobelPredict (dirpath):
+    data=[]
+    fileName=[]
+    fileList=listdir(dirpath)
+   # print(len(seaFileList))
+    for i in range(0,len(fileList)-1):
+        img_path = ""+ dirpath +"/"+ fileList[i]
+        img = cv.imread(img_path,0)
+        img = cv.resize(img, DataShape)
+        sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        sobel = np.concatenate((sobelx,sobely),axis = 1)
+        #print(len(sobel.flatten()))
+        data.append(sobel.flatten())
+        fileName.append(img_path)
+
+    data=np.asarray(data)
+  
+    return data,fileName
 
 def SobelImage(dirPath):
     data=[]

@@ -132,7 +132,7 @@ def flattenCV(img):
             Vec.append(pixel[2])
     return Vec
 ######################To_Execute######################
-
+'''
 #Ouverture du fichier image
 ImageFile = '../Data/Mer/xlou.jpeg'
 try:
@@ -166,5 +166,5 @@ except IOError:
 
 #Fermeture du fichier image
 img.close()
-
+'''
 ######################To_Execute######################
