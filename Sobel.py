@@ -36,7 +36,7 @@ from PIL import Image
 #
 # Retourne les gradients des images mises en taille img_width x img_hight et les étiquettes
 #
-DataShape = (200,200)
+DataShape = (130,100)
 
 def dataSobelY(dirPath):
 
@@ -149,8 +149,9 @@ def getSobel(fileNameList):
     for i in range(len(fileNameList)):
         img = cv.imread(fileNameList[i],0)
         img = cv.resize(img, DataShape)
-        sobely = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
-        sobelx = cv.Sobel(img,cv.CV_64F,1,0,ksize=5)
+        resized = cv.resize(img, (126,90), interpolation = cv.INTER_CUBIC)
+        sobely = cv.Sobel(resized,cv.CV_64F,1,0,ksize=5)
+        sobelx = cv.Sobel(resized,cv.CV_64F,1,0,ksize=5)
         sobel = np.concatenate((sobelx,sobely),axis = 1)
         #print(len(sobel.flatten()))
         data.append(sobel.flatten())
@@ -161,10 +162,20 @@ def getFastSobel(fileNameList):
     data=[]
     for i in range(len(fileNameList)):
         img = cv.imread(fileNameList[i],0)
-        img = cv.resize(img, DataShape)
-        sobel = (im.shapeDetectionCV(img,30))
+        resized = cv.resize(img, (126,90), interpolation = cv.INTER_CUBIC)
+        sobel = (im.shapeDetectionCV(resized,30))
         #print(len(sobel.flatten()))
         data.append(sobel.flatten())
+    data=np.asarray(data)
+    return data
+
+def getImageVec(fileNameList):
+    data=[]
+    for i in range(len(fileNameList)):
+        img = cv.imread(fileNameList[i],0)
+        resized = cv.resize(img, (126,90), interpolation = cv.INTER_CUBIC)
+        #print(len(sobel.flatten()))
+        data.append(resized.flatten())
     data=np.asarray(data)
     return data
 

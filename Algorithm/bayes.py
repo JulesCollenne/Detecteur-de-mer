@@ -33,3 +33,14 @@ def BayesSobel(X_train, X_test, y_train, y_test):
     #score
     #return (accuracy_score(result, y_test))
     return result
+
+def BayesImgvec(X_train, X_test, y_train, y_test):
+    #train
+    clf = GaussianNB()
+    clf.fit(X_train,y_train)
+    model.save_Model('BayesImgvec.sav',clf)
+    #predict
+    result = clf.predict(X_test)
+    #score
+    #return (accuracy_score(result, y_test))
+    return result

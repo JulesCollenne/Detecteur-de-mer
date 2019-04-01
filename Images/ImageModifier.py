@@ -133,6 +133,11 @@ def flattenCV(img):
     return Vec
 ######################To_Execute######################
 '''
+DataShape = (200,200)
+img = Image.open("../Data/Mer/aaaaa.jpeg")
+img2 = img.resize(DataShape)
+img2.show()
+
 #Ouverture du fichier image
 ImageFile = '../Data/Mer/xlou.jpeg'
 try:

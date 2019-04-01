@@ -32,12 +32,18 @@ accuracy_svm_h=0
 accuracy_bayes_s=0
 accuracy_ada_s=0
 accuracy_svm_s=0
+accuracy_bayes_i=0
+accuracy_ada_i=0
+accuracy_svm_i=0
 tmp_accracy_bayes_h=0
 tmp_accracy_ada_h=0
 tmp_accracy_svm_h=0
 tmp_accracy_bayes_s=0
 tmp_accracy_ada_s=0
 tmp_accracy_svm_s=0
+tmp_accracy_bayes_i=0
+tmp_accracy_ada_i=0
+tmp_accracy_svm_i=0
 accuracy=0
 
 if(pathTrain is not None):
@@ -55,19 +61,22 @@ if(pathTrain is not None):
         X_train, X_test, y_train, y_test = train_test_split(Dataname, targetName, train_size=0.8, test_size=0.2)
         X_Histo_train=re.getHistogramme(X_train)
         X_Sobel_train=sob.getSobel(X_train)
+        X_ImgVec_train=sob.getImageVec(X_train)
         #X_Sobel_train=sob.getFastSobel(X_train)
         X_Histo_test=re.getHistogramme(X_test)
         X_Sobel_test=sob.getSobel(X_test)
+        X_ImgVec_test=sob.getImageVec(X_test)
         #X_Sobel_test=sob.getFastSobel(X_test)
         tmps2=time.clock()
         print("Learning time : " ,round((tmps2-tmpsL),4),'sec\n')
-        #print("X_train : ",X_train.shape)
-        #print("X_test : ",X_test.shape)
-        #print("y_train : ",y_train.shape)
-        #print("y_test : ",y_test.shape)
-        #print("X_train histo : ", X_Histo_train.shape)
-        #print("X_train sobel : ", X_Sobel_train.shape)
-        #exit()
+        print("X_train : ",X_train.shape)
+        print("X_test : ",X_test.shape)
+        print("y_train : ",y_train.shape)
+        print("y_test : ",y_test.shape)
+        print("X_train histo : ", X_Histo_train.shape)
+        print("X_train sobel : ", X_Sobel_train.shape)
+        print("X_train imgvec : ", X_ImgVec_train.shape)
+
         print('bayes_Histo')
         accuracy_bayes_Histo = bayes.BayesHisto(X_Histo_train, X_Histo_test, y_train, y_test)
         print('ada_Histo')
@@ -77,9 +86,17 @@ if(pathTrain is not None):
         print('bayes_Sobel')
         accuracy_bayes_Sobel = bayes.BayesSobel(X_Sobel_train, X_Sobel_test, y_train, y_test)
         print('ada_Sobel')
-        accuracy_ada_Sobel  = ada.ada_boostDataSobel(X_Sobel_train, X_Sobel_test, y_train, y_test)
+        accuracy_ada_Sobel  = ada.ada_boostSobel(X_Sobel_train, X_Sobel_test, y_train, y_test)
         print('svm_Sobel')
-        accuracy_svm_Sobel   = svm.svmModelDataSobel(X_Sobel_train, X_Sobel_test, y_train, y_test)
+        accuracy_svm_Sobel   = svm.svmModelSobel(X_Sobel_train, X_Sobel_test, y_train, y_test)
+
+        print('bayes_VI')
+        accuracy_bayes_Imgvec = bayes.BayesImgvec(X_ImgVec_train, X_ImgVec_test, y_train, y_test)
+        print('ada_VI')
+        accuracy_ada_Imgvec = ada.ada_boostImgvec(X_ImgVec_train, X_ImgVec_test, y_train, y_test)
+        print('svm_VI')
+        accuracy_svm_Imgvec = svm.svmModelImgvec(X_ImgVec_train, X_ImgVec_test, y_train, y_test)
+
         #print('bagging')
         #accuracy_bagging=bag.baggingModel(X_train, X_test, y_train, y_test)
         tmp_accracy_bayes_h = accuracy_score(accuracy_bayes_Histo,y_test)
@@ -88,17 +105,23 @@ if(pathTrain is not None):
         tmp_accracy_bayes_s = accuracy_score(accuracy_bayes_Sobel,y_test)
         tmp_accracy_ada_s = accuracy_score(accuracy_ada_Sobel,y_test)
         tmp_accracy_svm_s = accuracy_score(accuracy_svm_Sobel,y_test)
+        tmp_accracy_bayes_i = accuracy_score(accuracy_bayes_Imgvec,y_test)
+        tmp_accracy_ada_i = accuracy_score(accuracy_ada_Imgvec,y_test)
+        tmp_accracy_svm_i = accuracy_score(accuracy_svm_Imgvec,y_test)
 
         vector = [accuracy_bayes_Histo*(tmp_accracy_bayes_h),
                   accuracy_ada_Histo*(tmp_accracy_ada_h),
                   accuracy_svm_Histo*(tmp_accracy_svm_h),
                   accuracy_bayes_Sobel*(tmp_accracy_bayes_s),
                   accuracy_ada_Sobel*(tmp_accracy_ada_s),
-                  accuracy_svm_Sobel*(tmp_accracy_svm_s)]
+                  accuracy_svm_Sobel*(tmp_accracy_svm_s),
+                  accuracy_bayes_Imgvec*(tmp_accracy_bayes_i),
+                  accuracy_ada_Imgvec*(tmp_accracy_ada_i),
+                  accuracy_svm_Imgvec*(tmp_accracy_svm_i),]
 
         print('\n')
-        for i in range(len(vector)):
-            print(vector[i],'\n')
+        #for i in range(len(vector)):
+            #print(vector[i],'\n')
         voteResult=moy.Votes(vector)
         accuracy+=accuracy_score(voteResult, y_test)
         nbIter+=1
@@ -109,6 +132,9 @@ if(pathTrain is not None):
         print("bayes_Sobel : ",tmp_accracy_bayes_s)
         print("ada_Sobel : ",tmp_accracy_ada_s)
         print("svm_Sobel : ",tmp_accracy_svm_s)
+        print("bayes_Imgvec : ",tmp_accracy_bayes_i)
+        print("ada_Imgvec : ",tmp_accracy_ada_i)
+        print("svm_Imgvec : ",tmp_accracy_svm_i)
         #print("bagging : ",accuracy_score(accuracy_bagging,y_test))
         accuracy_bayes_h += tmp_accracy_bayes_h
         accuracy_ada_h += tmp_accracy_ada_h
@@ -116,17 +142,23 @@ if(pathTrain is not None):
         accuracy_bayes_s += tmp_accracy_bayes_s
         accuracy_ada_s += tmp_accracy_ada_s
         accuracy_svm_s += tmp_accracy_svm_s
+        accuracy_bayes_i += tmp_accracy_bayes_i
+        accuracy_ada_i += tmp_accracy_ada_i
+        accuracy_svm_i += tmp_accracy_svm_i
         print("Vote test",nbIter,": ",accuracy_score(voteResult, y_test),'\n')
         tmps3=time.clock()
         print("Execution time : " ,round((tmps3-tmps2),4),'sec\n')
 
-    print("---------------------------------------------")
+    print("---------------",nbIter," Samples ---------------")
     print("bayes_Histo average : ",accuracy_bayes_h/nbIter)
     print("ada_Histo average : ",accuracy_ada_h/nbIter)
     print("SVM_Histo average : ",accuracy_svm_h/nbIter)
     print("bayes_Sobel average : ",accuracy_bayes_s/nbIter)
     print("ada_Sobel average : ",accuracy_ada_s/nbIter)
     print("SVM_Sobel average : ",accuracy_svm_s/nbIter)
+    print("bayes_Imgvec average : ",accuracy_bayes_i/nbIter)
+    print("ada_Imgvec average : ",accuracy_ada_i/nbIter)
+    print("svm_Imgvec average : ",accuracy_svm_i/nbIter)
     print("Average of votes = ",accuracy/nbIter)
     tmpsF=time.clock()
     print("Final execution time : " ,round((tmpsF-tmps1),4),'sec\n')

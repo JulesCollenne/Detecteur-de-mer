@@ -3,13 +3,23 @@ from sklearn import svm
 from Algorithm import Model as model
 from sklearn.model_selection import GridSearchCV
 
-def svmModelDataSobel(X_train, X_test, y_train, y_test):
+def svmModelSobel(X_train, X_test, y_train, y_test):
     clf = svm.SVC(C=1, cache_size=200, class_weight=None, coef0=0.0,
   decision_function_shape='ovr', degree=3, gamma='scale', kernel='rbf',
   max_iter=-1, probability=False, random_state=None, shrinking=True,
   tol=0.001, verbose=False)
     clf.fit(X_train, y_train)
     model.save_Model('svmSobel.sav',clf)
+    y_predict = clf.predict(X_test)
+    return y_predict
+
+def svmModelImgvec(X_train, X_test, y_train, y_test):
+    clf = svm.SVC(C=1, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma='scale', kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+    clf.fit(X_train, y_train)
+    model.save_Model('svmImgvec.sav',clf)
     y_predict = clf.predict(X_test)
     return y_predict
 
