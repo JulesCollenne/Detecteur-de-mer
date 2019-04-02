@@ -108,8 +108,8 @@ def getColorRatesCross(name_packets): #, target_packets):
             data[p].append(Cr.getColorRates(name_packets[p][img]))
             #target[p].append(target_packets[p][img])
 
-    for line in range(len(name_packets)):
-        data[line]=numpy.asarray(data[line])
+    # for line in range(len(name_packets)):
+    #     data[line]=numpy.asarray(data[line])
         #target[line]=numpy.asarray(target[line])
 
     return data #,target
