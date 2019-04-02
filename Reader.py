@@ -33,6 +33,28 @@ def dataHistogramme(dirPath):
 
     return data,target
 
+def getHistogramme(fileNameList):
+    data=[]
+    for i in range(len(fileNameList)):
+        data.append(Hi.VectorHistogrammeC(fileNameList[i]))
+    data=numpy.asarray(data)
+    return data
+
+def getHistogrammeCross(name_packets): #, target_packets):
+
+    data=[ [] for line in range(len(name_packets)) ]
+    #target=[ [] for line in range(len(target_packets))]
+
+    for p in range(len(name_packets)):
+        for img in range(len(name_packets[p])):
+            data[p].append(Hi.VectorHistogrammeC(name_packets[p][img]))
+            # target[p].append(target_packets[p][img])
+
+    # for line in range(len(name_packets)):
+    #     data[line]=numpy.asarray(data[line])
+        # target[line]=numpy.asarray(target[line])
+
+    return data #, target
 
 def dataHistogrammePredict(dirPath):
 
@@ -49,22 +71,6 @@ def dataHistogrammePredict(dirPath):
     fileList=numpy.asarray(fileList)
 
     return data,fileList
-
-def dataHistogrammeCross(name_packets, target_packets):
-
-    data=[ [] for line in range(len(name_packets)) ]
-    target=[ [] for line in range(len(target_packets))]
-
-    for p in range(len(name_packets)):
-        for img in range(len(name_packets[p])):
-            data[p].append(Hi.VectorHistogrammeC(name_packets[p][img]))
-            target[p].append(target_packets[p][img])
-
-    for line in range(len(name_packets)):
-        data[line]=numpy.asarray(data[line])
-        target[line]=numpy.asarray(target[line])
-
-    return data,target
 
 def dataColorRates(dirPath):
 
@@ -92,12 +98,21 @@ def dataColorRates(dirPath):
 
     return data,target
 
-def getHistogramme(fileNameList):
-    data=[]
-    for i in range(len(fileNameList)):
-        data.append(Hi.VectorHistogrammeC(fileNameList[i]))
-    data=numpy.asarray(data)
-    return data
+def getColorRatesCross(name_packets): #, target_packets):
+
+    data=[ [] for line in range(len(name_packets)) ]
+    #target=[ [] for line in range(len(target_packets))]
+
+    for p in range(len(name_packets)):
+        for img in range(len(name_packets[p])):
+            data[p].append(Cr.getColorRates(name_packets[p][img]))
+            #target[p].append(target_packets[p][img])
+
+    for line in range(len(name_packets)):
+        data[line]=numpy.asarray(data[line])
+        #target[line]=numpy.asarray(target[line])
+
+    return data #,target
 
 
 
@@ -125,18 +140,5 @@ def NameTarget(dirPath):
     target=numpy.asarray(target)
 
     return data,target
-def dataColorRatesCross(name_packets, target_packets):
 
-    data=[ [] for line in range(len(name_packets)) ]
-    target=[ [] for line in range(len(target_packets))]
 
-    for p in range(len(name_packets)):
-        for img in range(len(name_packets[p])):
-            data[p].append(Cr.getColorRates(name_packets[p][img]))
-            target[p].append(target_packets[p][img])
-
-    for line in range(len(name_packets)):
-        data[line]=numpy.asarray(data[line])
-        target[line]=numpy.asarray(target[line])
-
-    return data,target
